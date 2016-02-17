@@ -1,8 +1,13 @@
 // M10100 main.cpp
 
 #include <carte/host>
-#include <test_suite_routines.h>
+//#include <test_suite_routines.h>
+
+#define USE_SEQ_DATA 1
+
 using namespace carte;
+
+
 
 const unsigned SIZE = 128;
 
@@ -12,7 +17,7 @@ void run_a_test (int64_t value);
 int64_t *A, *B;
 
 int main (int argc, char *argv[]) {
-    setup (argc, argv);
+    //setup (argc, argv);
 
     A = (int64_t*) Cache_Aligned_Allocate (SIZE * sizeof (int64_t));
     B = (int64_t*) Cache_Aligned_Allocate (SIZE * sizeof (int64_t));
@@ -38,16 +43,16 @@ void run_a_test (int64_t value) {
 
     for (unsigned i=0; i<SIZE; i++) {
         A[i] = (random() < 0x40000000) ? 1 : 0;
-        if (use_seq_data)
+        if (USE_SEQ_DATA)
             B[i] = i;
         else
             B[i] = random();
         //fpr << "0x" << std::hex << (A[i] ? value : B[i]) << std::endl;
     }
 
-    t0 = snapshot_timer();
+    //t0 = snapshot_timer();
     subr (make_cpu(A), make_cpu(B), value, SIZE, mapnum);
-    t1 = snapshot_timer();
+    //t1 = snapshot_timer();
 
     //for (unsigned i=0; i<SIZE; i++) {
     //    fp << "0x" << std::hex << B[i] << std::endl;

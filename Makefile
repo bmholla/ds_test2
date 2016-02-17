@@ -36,12 +36,14 @@ LDLIBS          +=              # Libraries: -lmylib
 # -----------------------
 # Default tool selections
 # -----------------------
-TEST_SUITE_MCXX ?= carte++
-TEST_SUITE_CXX  ?= clang++
-TEST_SUITE_LD   ?= $(TEST_SUITE_CXX)
-MCXX             = $(TEST_SUITE_MCXX)
-CXX              = $(TEST_SUITE_CXX)
-LD               = $(TEST_SUITE_LD)
+MCXX             = carte++
+CXX              = clang++
+LD               = $(CXX)
+
+#TEST_SUITE_LD   ?= $(TEST_SUITE_CXX)
+#MCXX             = $(TEST_SUITE_MCXX)
+#CXX              = $(TEST_SUITE_CXX)
+#LD               = $(TEST_SUITE_LD)
 
 # --------------------------
 # Default MAP type selection

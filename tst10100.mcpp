@@ -1,0 +1,33 @@
+#include <carte/memory>
+using namespace carte;
+
+/// \file tst10100.mcpp
+/// \brief This code tests a simple loop with a conditional write.
+///
+/// This code was derived from the old suite 'ex100'. It uses OBMs A and B.
+/// It does two DMAs into A and B, then executes a loop that reads A
+/// and conditionally writes to B. Finally, the data in B are DMAed
+/// back to the CPU.
+
+/// \brief This is the top-level MAP routine.
+///
+/// \param A        The CPU address used for OBM A DMA
+/// \param B        The CPU address used for OBM B DMA
+/// \param value    The value that is written to some locations in OBM B
+/// \param m        The number of qwords DMAed, and the number of loop
+/// iterations
+/// \param mapnum   The logical MAP id
+///
+void subr(cpu_ptr<long> A, cpu_ptr<long> B, long value, int m, int) {
+  long *AL = (long *)malloc(obm::A, m * sizeof(long));
+  long *BL = (long *)malloc(obm::B, m * sizeof(long));
+
+  memcpy(AL, A, m * sizeof(long));
+  memcpy(BL, B, m * sizeof(long));
+
+  for (int i = 0; i < m; i++)
+    if (AL[i] != 0)
+      BL[i] = value;
+
+  memcpy(B, BL, m * sizeof(long));
+}
